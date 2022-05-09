@@ -225,8 +225,8 @@ int deleteLeafNode(Node* head, int key)
 
 	while(ptr != NULL) { //ptr이 NULL이 아니라면 반복
 
-		if(ptr->key == key) {
-			if(ptr->left == NULL && ptr->right == NULL) {
+		if(ptr->key == key) { //ptr의 key값과 같다면
+			if(ptr->left == NULL && ptr->right == NULL) { //ptr의 left나 right가 NULL이라면
 
 				/* root node case */
 				if(parentNode == head)
@@ -234,11 +234,11 @@ int deleteLeafNode(Node* head, int key)
 
 				/* left node case or right case*/
 				if(parentNode->left == ptr)
-					parentNode->left = NULL;
+					parentNode->left = NULL; //parentNode의 left 초기화
 				else
-					parentNode->right = NULL;
+					parentNode->right = NULL; //parentNode의 right 초기화
 
-				free(ptr);
+				free(ptr); //ptr 메모리 해제
 			}
 			else {
 				printf("the node [%d] is not a leaf \n", ptr->key);
@@ -266,33 +266,36 @@ int deleteLeafNode(Node* head, int key)
 	return 1;
 }
 
+/* Recursive */
 Node* searchRecursive(Node* ptr, int key)
 {
-	if(ptr == NULL)
+	if(ptr == NULL) //ptr이 NULL이라면 NULL반환
 		return NULL;
 
-	if(ptr->key < key)
-		ptr = searchRecursive(ptr->right, key);
-	else if(ptr->key > key)
-		ptr = searchRecursive(ptr->left, key);
+	if(ptr->key < key) //key값이 더 크다면
+		ptr = searchRecursive(ptr->right, key); //노드의 오른쪽 탐색
+	else if(ptr->key > key) //key값이 더 작다면
+		ptr = searchRecursive(ptr->left, key); //노드의 왼쪽 탐색
 
 	/* if ptr->key == key */
-	return ptr;
+	return ptr; //ptr반환
 
 }
+
+/* Iterative */
 Node* searchIterative(Node* head, int key)
 {
 	/* root node */
 	Node* ptr = head->left;
 
-	while(ptr != NULL)
+	while(ptr != NULL) //ptr이 NULL이 아니면 반복
 	{
-		if(ptr->key == key)
-			return ptr;
+		if(ptr->key == key) //key값과 같다면
+			return ptr; //ptr 반환
 
-		if(ptr->key < key) ptr = ptr->right;
+		if(ptr->key < key) ptr = ptr->right; //key값이 더 크다면 ptr의 right를 저장
 		else
-			ptr = ptr->left;
+			ptr = ptr->left; //key값이 더 작다면 ptr의 left 저장
 	}
 
 	return NULL;
