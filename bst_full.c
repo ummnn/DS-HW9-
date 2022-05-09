@@ -11,10 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* 노드구조체 선언 */
 typedef struct node {
 	int key;
-	struct node *left;
-	struct node *right;
+	struct node *left; //왼쪽노드 (노드의 key 보다 작은값)
+	struct node *right; //오른쪽노드 (노드의 key 보다 큰값)
 } Node;
 
 int initializeBST(Node** h);
@@ -38,7 +39,7 @@ int main()
     
 	char command;
 	int key;
-	Node* head = NULL;
+	Node* head = NULL;  //헤드노드 초기화
 	Node* ptr = NULL;	/* temp */
 
 	do{
@@ -54,56 +55,56 @@ int main()
 		printf("----------------------------------------------------------------\n");
 
 		printf("Command = ");
-		scanf(" %c", &command);
+		scanf(" %c", &command); //command를 입력받는다
 
 		switch(command) {
-		case 'z': case 'Z':
-			initializeBST(&head);
-			break;
-		case 'q': case 'Q':
-			freeBST(head);
-			break;
-		case 'n': case 'N':
-			printf("Your Key = ");
-			scanf("%d", &key);
-			insert(head, key);
-			break;
-		case 'd': case 'D':
-			printf("Your Key = ");
-			scanf("%d", &key);
-			deleteLeafNode(head, key);
-			break;
-		case 'f': case 'F':
-			printf("Your Key = ");
-			scanf("%d", &key);
-			ptr = searchIterative(head, key);
-			if(ptr != NULL)
-				printf("\n node [%d] found at %p\n", ptr->key, ptr);
-			else
-				printf("\n Cannot find the node [%d]\n", key);
-			break;
-		case 's': case 'S':
-			printf("Your Key = ");
-			scanf("%d", &key);
-			ptr = searchRecursive(head->left, key);
-			if(ptr != NULL)
-				printf("\n node [%d] found at %p\n", ptr->key, ptr);
-			else
-				printf("\n Cannot find the node [%d]\n", key);
-			break;
+            case 'z': case 'Z': //command가 z나 Z일 때
+                initializeBST(&head); //initializeBST함수 실행
+                break;
+            case 'q': case 'Q': //command가 q나 Q일 때
+                freeBST(head); //freeBST 함수 실행
+                break;
+            case 'n': case 'N': //command가 n이나 N일 때
+                printf("Your Key = ");
+                scanf("%d", &key); //key를 입력 받는다
+                insert(head, key); //insert 함수 실행
+                break;
+            case 'd': case 'D': //command가 d나 D일 때
+                printf("Your Key = ");
+                scanf("%d", &key); //key를 입력받는다
+                deleteLeafNode(head, key); //deleteLeafnode 함수 실행
+                break;
+            case 'f': case 'F':
+                printf("Your Key = ");
+                scanf("%d", &key);
+                ptr = searchIterative(head, key);
+                if(ptr != NULL)
+                    printf("\n node [%d] found at %p\n", ptr->key, ptr);
+                else
+                    printf("\n Cannot find the node [%d]\n", key);
+                break;
+            case 's': case 'S':
+                printf("Your Key = ");
+                scanf("%d", &key);
+                ptr = searchRecursive(head->left, key);
+                if(ptr != NULL)
+                    printf("\n node [%d] found at %p\n", ptr->key, ptr);
+                else
+                    printf("\n Cannot find the node [%d]\n", key);
+                break;
 
-		case 'i': case 'I':
-			inorderTraversal(head->left);
-			break;
-		case 'p': case 'P':
-			preorderTraversal(head->left);
-			break;
-		case 't': case 'T':
-			postorderTraversal(head->left);
-			break;
-		default:
-			printf("\n       >>>>>   Concentration!!   <<<<<     \n");
-			break;
+            case 'i': case 'I':
+                inorderTraversal(head->left);
+                break;
+            case 'p': case 'P':
+                preorderTraversal(head->left);
+                break;
+            case 't': case 'T':
+                postorderTraversal(head->left);
+                break;
+            default:
+                printf("\n       >>>>>   Concentration!!   <<<<<     \n");
+                break;
 		}
 
 	}while(command != 'q' && command != 'Q');
@@ -111,6 +112,7 @@ int main()
 	return 1;
 }
 
+/* 이진검색노드 선언 함수 */
 int initializeBST(Node** h) {
 
 	/* if the tree is not empty, then remove all allocated nodes from the tree*/
@@ -118,15 +120,14 @@ int initializeBST(Node** h) {
 		freeBST(*h);
 
 	/* create a head node */
-	*h = (Node*)malloc(sizeof(Node));
+	*h = (Node*)malloc(sizeof(Node)); //Node의 크기만큼 메모리 할당
 	(*h)->left = NULL;	/* root */
-	(*h)->right = *h;
+	(*h)->right = *h;   
 	(*h)->key = -9999;
 	return 1;
 }
 
-
-
+/* 중위순회 */
 void inorderTraversal(Node* ptr)
 {
 	if(ptr) {
@@ -136,6 +137,7 @@ void inorderTraversal(Node* ptr)
 	}
 }
 
+/* 전위순회 */
 void preorderTraversal(Node* ptr)
 {
 	if(ptr) {
@@ -145,6 +147,7 @@ void preorderTraversal(Node* ptr)
 	}
 }
 
+/* 후위순회 */
 void postorderTraversal(Node* ptr)
 {
 	if(ptr) {
@@ -154,24 +157,25 @@ void postorderTraversal(Node* ptr)
 	}
 }
 
-
+/* 노드 삽입 함수 */
 int insert(Node* head, int key)
 {
-	Node* newNode = (Node*)malloc(sizeof(Node));
+    //newNode 초기화
+	Node* newNode = (Node*)malloc(sizeof(Node)); //Node의 크기만큼 메모리 할당
 	newNode->key = key;
 	newNode->left = NULL;
 	newNode->right = NULL;
 
-	if (head->left == NULL) {
-		head->left = newNode;
+	if (head->left == NULL) { //newNode의 left가 NULL이라면
+		head->left = newNode; //newNode의 left에 newNode 저장
 		return 1;
 	}
 
 	/* head->left is the root */
 	Node* ptr = head->left;
 
-	Node* parentNode = NULL;
-	while(ptr != NULL) {
+	Node* parentNode = NULL; //parentNode NULL로 초기화
+	while(ptr != NULL) { //ptr이 NULL이 아니라면 반복
 
 		/* if there is a node for the key, then just return */
 		if(ptr->key == key) return 1;
@@ -198,14 +202,15 @@ int insert(Node* head, int key)
 	return 1;
 }
 
+/* leafNode삭제 함수 */
 int deleteLeafNode(Node* head, int key)
 {
-	if (head == NULL) {
+	if (head == NULL) { //head가 NULL이라면
 		printf("\n Nothing to delete!!\n");
 		return -1;
 	}
 
-	if (head->left == NULL) {
+	if (head->left == NULL) { //head의 left가 NULL이라면
 		printf("\n Nothing to delete!!\n");
 		return -1;
 	}
@@ -218,7 +223,7 @@ int deleteLeafNode(Node* head, int key)
 	 * keep tracking the parent using parentNode */
 	Node* parentNode = head;
 
-	while(ptr != NULL) {
+	while(ptr != NULL) { //ptr이 NULL이 아니라면 반복
 
 		if(ptr->key == key) {
 			if(ptr->left == NULL && ptr->right == NULL) {
@@ -293,29 +298,31 @@ Node* searchIterative(Node* head, int key)
 	return NULL;
 }
 
+/* 노드 메모리 해제 함수 */
 void freeNode(Node* ptr)
 {
 	if(ptr) {
-		freeNode(ptr->left);
-		freeNode(ptr->right);
-		free(ptr);
+		freeNode(ptr->left); //freeNode함수 실행 left 메모리 해제 
+		freeNode(ptr->right); //freeNode함수 실행 right 메모리 해제 
+		free(ptr); //ptr메모리 해제
 	}
 }
 
+/* 트리 메모리 해제 함수 */
 int freeBST(Node* head)
 {
 
-	if(head->left == head)
+	if(head->left == head) //left가 head 라면
 	{
-		free(head);
+		free(head); //head메모리 할당 해제
 		return 1;
 	}
 
-	Node* p = head->left;
+	Node* p = head->left; //head의 left p에 저장
 
-	freeNode(p);
+	freeNode(p); //freenode 함수 실행
 
-	free(head);
+	free(head); //head 메모리 할당 해제
 	return 1;
 }
 
