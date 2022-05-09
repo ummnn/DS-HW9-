@@ -74,40 +74,40 @@ int main()
                 scanf("%d", &key); //key를 입력받는다
                 deleteLeafNode(head, key); //deleteLeafnode 함수 실행
                 break;
-            case 'f': case 'F':
+            case 'f': case 'F': //command가 f나 F일 때
                 printf("Your Key = ");
-                scanf("%d", &key);
-                ptr = searchIterative(head, key);
-                if(ptr != NULL)
+                scanf("%d", &key); //key를 입력받는다
+                ptr = searchIterative(head, key); //searchIterative 함수 리턴값 저장
+                if(ptr != NULL) //key를 찾았다면
                     printf("\n node [%d] found at %p\n", ptr->key, ptr);
-                else
+                else //찾지 못했다면
                     printf("\n Cannot find the node [%d]\n", key);
                 break;
-            case 's': case 'S':
+            case 's': case 'S': //command가 s나 S일 때
                 printf("Your Key = ");
-                scanf("%d", &key);
-                ptr = searchRecursive(head->left, key);
-                if(ptr != NULL)
+                scanf("%d", &key); //key를 입력받는다
+                ptr = searchRecursive(head->left, key); //searchRecursive 함수 리턴값 저장
+                if(ptr != NULL) //key를 찾았다면
                     printf("\n node [%d] found at %p\n", ptr->key, ptr);
-                else
+                else //찾지 못했다면
                     printf("\n Cannot find the node [%d]\n", key);
                 break;
 
-            case 'i': case 'I':
-                inorderTraversal(head->left);
+            case 'i': case 'I': //command가 i나 I라면
+                inorderTraversal(head->left); //inorderTraversal 함수 실행
                 break;
-            case 'p': case 'P':
-                preorderTraversal(head->left);
+            case 'p': case 'P': //command가 p나 P라면
+                preorderTraversal(head->left); //preorderTraversal 함수 실행
                 break;
-            case 't': case 'T':
-                postorderTraversal(head->left);
+            case 't': case 'T': //command가 t나 T라면
+                postorderTraversal(head->left); //postorderTraversal 함수 실행
                 break;
             default:
                 printf("\n       >>>>>   Concentration!!   <<<<<     \n");
                 break;
 		}
 
-	}while(command != 'q' && command != 'Q');
+	}while(command != 'q' && command != 'Q'); //q나 Q가 입력될때까지 반복
 
 	return 1;
 }
